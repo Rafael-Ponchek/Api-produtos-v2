@@ -3,21 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cadastro de Produtos</title>
+<title>Login</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div>
         <h1>Login</h1>
-        <form id="Login-cliente">
+        <form id="login-form">
             <label>E-mail:</label>
-            <input type="text" id="loginEmail">
+            <input type="email" id="loginEmail" required>
             <label>Senha:</label>
-            <input type="text" id="loginSenha">
-            <button onclick="botaoLoguin">Entrar</button>
-            
+            <input type="password" id="loginSenha" required>
+            <button type="submit">Entrar</button>
         </form>
+        <p><a href="registro.html">Ainda não tenho conta</a></p>
+        <p><a href="inicio.html">Voltar</a></p>
     </div>
     <script src="script.js"></script>
-
 </body>
+</html>
