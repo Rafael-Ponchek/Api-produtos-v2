@@ -3,28 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cadastro de Produtos</title>
+<title>Registro</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div>
-        <h1>Registro</h1>
-        <form id="Registro-cliente">
-            <label>Nome</label>
-            <input type="text" id="registroNome">
+        <h1>Criar conta</h1>
+        <form id="registro-form">
+            <label>Nome:</label>
+            <input type="text" id="registroNome" required>
             <label>E-mail:</label>
-            <input type="email" id="loginEmail">
+            <input type="email" id="registroEmail" required>
             <label>Senha:</label>
-            <input type="password" id="loginSenha">
-            <select id="tipo-acesso" name="tipo_acesso" required>
-                <option value="" disabled selected>Escolha um prefil</option>
-                <option value="administrador">Administrador</option>
-                <option value="cliente">Cliente</option>
-            </select>
-            <button onclick="botaoLoguin">Entrar</button>
-            
+            <input type="password" id="registroSenha" minlength="6" required>
+            <p>Novas contas são criadas como cliente.</p>
+            <button type="submit">Cadastrar</button>
         </form>
+        <p><a href="login.html">Já tenho conta</a></p>
+        <p><a href="inicio.html">Voltar</a></p>
     </div>
     <script src="script.js"></script>
-
 </body>
+</html>
