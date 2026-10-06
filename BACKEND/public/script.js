@@ -95,12 +95,15 @@ async function fazerRegistro(e) {
     const nome = document.getElementById('registroNome').value;
     const email = document.getElementById('registroEmail').value;
     const senha = document.getElementById('registroSenha').value;
+    const acesso = document.getElementById('registroAcesso').value === 'true';
+    const campoCodigo = document.getElementById('registroCodigoAdmin');
+    const codigoAdmin = campoCodigo ? campoCodigo.value : '';
 
     try {
         const resposta = await fetch('/auth/registro', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nome, email, senha })
+            body: JSON.stringify({ nome, email, senha, acesso, codigoAdmin })
         });
 
         const dados = await resposta.json();
@@ -362,6 +365,21 @@ if (loginForm) {
 
 const registroForm = document.getElementById('registro-form');
 if (registroForm) {
+    const tipoConta = document.getElementById('registroAcesso');
+    const campoCodigo = document.getElementById('campo-codigo-admin');
+
+    if (tipoConta && campoCodigo) {
+        tipoConta.addEventListener('change', () => {
+            const administrador = tipoConta.value === 'true';
+            campoCodigo.style.display = administrador ? 'block' : 'none';
+
+            const codigoInput = document.getElementById('registroCodigoAdmin');
+            if (codigoInput) {
+                codigoInput.required = administrador;
+            }
+        });
+    }
+
     registroForm.addEventListener('submit', fazerRegistro);
 }
 
