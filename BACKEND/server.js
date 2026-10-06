@@ -45,7 +45,7 @@ function verificarConfiguracao(res) {
 app.post('/auth/registro', async (req, res) => {
     if (!verificarConfiguracao(res)) return;
 
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, acesso, codigoAdmin } = req.body;
 
     if (!nome || !email || !senha) {
         return res.status(400).json({ erro: 'Nome, email e senha são obrigatórios.' });
@@ -53,6 +53,26 @@ app.post('/auth/registro', async (req, res) => {
 
     if (senha.length < 6) {
         return res.status(400).json({ erro: 'A senha deve possuir pelo menos 6 caracteres.' });
+    }
+
+    // A criação de administrador exige um código secreto armazenado
+    // somente nas variáveis de ambiente da Vercel.
+    let novoAcesso = false;
+
+    if (acesso === true) {
+        if (!process.env.CODIGO_ADMIN) {
+            return res.status(500).json({
+                erro: 'CODIGO_ADMIN não está configurado na Vercel.'
+            });
+        }
+
+        if (!codigoAdmin || codigoAdmin !== process.env.CODIGO_ADMIN) {
+            return res.status(403).json({
+                erro: 'Código de administrador inválido.'
+            });
+        }
+
+        novoAcesso = true;
     }
 
     try {
@@ -67,15 +87,15 @@ app.post('/auth/registro', async (req, res) => {
 
         const senhaHash = await bcrypt.hash(senha, 10);
 
-        // Registro público sempre cria cliente.
-        // Para criar/promover administrador, use acesso = true no Supabase.
         const result = await pool.query(
             'INSERT INTO usuario (nome, email, senha, acesso) VALUES ($1, $2, $3, $4) RETURNING id, nome, email, acesso',
-            [nome, email, senhaHash, false]
+            [nome, email, senhaHash, novoAcesso]
         );
 
         res.status(201).json({
-            mensagem: 'Usuário cadastrado com sucesso.',
+            mensagem: novoAcesso
+                ? 'Administrador cadastrado com sucesso.'
+                : 'Usuário cadastrado com sucesso.',
             usuario: result.rows[0]
         });
     } catch (erro) {
