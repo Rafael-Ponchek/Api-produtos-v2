@@ -22,11 +22,11 @@ const pool = databaseUrl
     })
     : null;
 
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'inicio.html'));
 });
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 function verificarConfiguracao(res) {
     if (!pool) {
