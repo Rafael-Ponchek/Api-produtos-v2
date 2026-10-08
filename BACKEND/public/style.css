@@ -13,8 +13,9 @@ body{
 }
 
 .linkInicio{
+    align-items: center;
     text-align: center;
-    width: 200px;
+    paddin: 200px;
 }
 
 h1{
