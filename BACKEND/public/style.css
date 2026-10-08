@@ -13,6 +13,8 @@ body{
 }
 
 .linkInicio{
+    width: 200px;
+    height: 50px;
     align-items: center;
     text-align: center;
     paddin: 200px;
